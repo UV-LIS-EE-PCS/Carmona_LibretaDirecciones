@@ -66,7 +66,7 @@ public class Menu {
 
         addressBook.addAddress(newEntry);
 
-        System.out.println("lA entrada se ha agregado correctamente.");
+        System.out.println("La entrada se ha agregado correctamente.");
     }
     private void removeEntry() {
 
