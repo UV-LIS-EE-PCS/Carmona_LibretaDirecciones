@@ -18,6 +18,7 @@ public class AddressEntry {
         this.email = email;
         this.telefono = telefono;
     }
+
     @Override
     public String toString() {
         return nombre + " " + apellido + " " + calle + " " + ciudad + " " + estado + " " + codigoPostal + " " + email + " " + telefono;
@@ -26,49 +27,104 @@ public class AddressEntry {
     public String getNombre() {
         return nombre;
     }
+
     public void setNombre(String nombre) {
-        this.nombre = nombre;
+        if (nombre != null && !nombre.isEmpty()) {
+            this.nombre = nombre;
+        } else {
+            System.out.println("Nombre inválido.");
+        }
     }
+
     public String getApellido() {
         return apellido;
     }
+
     public void setApellido(String apellido) {
-        this.apellido = apellido;
+        if (apellido != null && !apellido.isEmpty()) {
+            this.apellido = apellido;
+        } else {
+            System.out.println("Apellido inválido.");
+        }
     }
+
     public String getCalle() {
         return calle;
     }
+
     public void setCalle(String calle) {
-        this.calle = calle;
+        if (calle != null && !calle.isEmpty()) {
+            this.calle = calle;
+        } else {
+            System.out.println("Calle inválida.");
+        }
     }
+
     public String getCiudad() {
         return ciudad;
     }
+
     public void setCiudad(String ciudad) {
-        this.ciudad = ciudad;
+        if (ciudad != null && !ciudad.isEmpty()) {
+            this.ciudad = ciudad;
+        } else {
+            System.out.println("Ciudad inválida.");
+        }
     }
+
     public String getEstado() {
         return estado;
     }
+
     public void setEstado(String estado) {
-        this.estado = estado;
+        if (estado != null && !estado.isEmpty()) {
+            this.estado = estado;
+        } else {
+            System.out.println("Estado inválido.");
+        }
     }
+
     public String getCodigoPostal() {
         return codigoPostal;
     }
+
     public void setCodigoPostal(String codigoPostal) {
-        this.codigoPostal = codigoPostal;
+        if (codigoPostal != null && !codigoPostal.isEmpty()) {
+            this.codigoPostal = codigoPostal;
+        } else {
+            System.out.println("Código postal inválido.");
+        }
     }
+
     public String getEmail() {
         return email;
     }
+
     public void setEmail(String email) {
-        this.email = email;
+        if (isValidEmail(email)) {
+            this.email = email;
+        } else {
+            System.out.println("Correo electrónico inválido.");
+        }
     }
+
     public String getTelefono() {
         return telefono;
     }
+
     public void setTelefono(String telefono) {
-        this.telefono = telefono;
+        if (isValidPhoneNumber(telefono)) {
+            this.telefono = telefono;
+        } else {
+            System.out.println("Número de teléfono inválido.");
+        }
+    }
+
+    private boolean isValidEmail(String email) {
+        return email != null && !email.isEmpty() && email.contains("@") && email.indexOf(".") > email.indexOf("@");
+    }
+
+    private boolean isValidPhoneNumber(String phoneNumber) {
+        return phoneNumber != null && !phoneNumber.isEmpty() && phoneNumber.matches("\\d+");
     }
 }

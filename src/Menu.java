@@ -3,7 +3,6 @@ import java.util.Scanner;
 public class Menu {
     private AddressBook addressBook;
     private Scanner scanner;
-
     public Menu(AddressBook addressBook) {
         this.addressBook = addressBook;
         this.scanner = new Scanner(System.in);
@@ -45,7 +44,29 @@ public class Menu {
         }
     }
     private void addEntry() {
+        System.out.println("Agregando una nueva entrada: ");
+        System.out.print("Nombre: ");
+        String nombre = scanner.nextLine();
+        System.out.print("Apellido: ");
+        String apellido = scanner.nextLine();
+        System.out.print("Calle: ");
+        String calle = scanner.nextLine();
+        System.out.print("Ciudad: ");
+        String ciudad = scanner.nextLine();
+        System.out.print("Estado: ");
+        String estado = scanner.nextLine();
+        System.out.print("CP: ");
+        String cp = scanner.nextLine();
+        System.out.print("Email: ");
+        String email = scanner.nextLine();
+        System.out.print("Telefono: ");
+        String telefono = scanner.nextLine();
 
+        AddressEntry newEntry = new AddressEntry(nombre, apellido, calle, ciudad, estado, cp, email, telefono);
+
+        addressBook.addAddress(newEntry);
+
+        System.out.println("lA entrada se ha agregado correctamente.");
     }
     private void removeEntry() {
 
