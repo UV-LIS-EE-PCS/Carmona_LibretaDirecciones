@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class Menu {
@@ -66,10 +68,36 @@ public class Menu {
 
         addressBook.addAddress(newEntry);
 
-        System.out.println("lA entrada se ha agregado correctamente.");
+        System.out.println("La entrada se ha agregado correctamente.");
     }
     private void removeEntry() {
+        System.out.println("Eliminando una nueva entrada: ");
+        System.out.println("Ingrese el apellido del contacto a eliminar: ");
+        String apellido = scanner.nextLine().trim();
 
+        List<AddressEntry> entriesToRemove = addressBook.findApellido(apellido);
+        if(entriesToRemove.isEmpty()) {
+            System.out.println("No se encontró el apellido.");
+        }
+        else {
+            System.out.println("El siguiente contacto fue encontrado: ");
+            for(AddressEntry entry : entriesToRemove) {
+                System.out.println(entry);
+            }
+        }
+
+        System.out.println("Ingrese 'y' para eliminar o 'n' para regresar al menú");
+        String confirmacion = scanner.nextLine().trim().toLowerCase();
+        if(confirmacion.equals("y")) {
+            for(AddressEntry entry : entriesToRemove) {
+                addressBook.removeAddress(entry);
+            }
+            System.out.println("Se eliminaron correctamente todas las entradas.");
+        }
+        else {
+            System.out.println("Regresando al menú.");
+            displayMenu();
+        }
     }
     private void findEntry() {
 
