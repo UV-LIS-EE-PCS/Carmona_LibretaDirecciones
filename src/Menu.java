@@ -46,7 +46,7 @@ public class Menu {
         }
     }
     private void addEntry() {
-        System.out.println("Agregando una nueva entrada: ");
+        System.out.println("Agregando un nuevo contacto: ");
         System.out.print("Nombre: ");
         String nombre = scanner.nextLine();
         System.out.print("Apellido: ");
@@ -68,40 +68,76 @@ public class Menu {
 
         addressBook.addAddress(newEntry);
 
-        System.out.println("La entrada se ha agregado correctamente.");
+        System.out.println("El contacto se ha agregado correctamente.");
     }
     private void removeEntry() {
-        System.out.println("Eliminando una nueva entrada: ");
-        System.out.println("Ingrese el apellido del contacto a eliminar: ");
-        String apellido = scanner.nextLine().trim();
+        System.out.println("Eliminando un contacto:");
+        System.out.print("Ingrese las primeras letras del apellido del contacto a eliminar: ");
+        String apellidoInicio = scanner.nextLine().trim();
 
-        List<AddressEntry> entriesToRemove = addressBook.findApellido(apellido);
-        if(entriesToRemove.isEmpty()) {
-            System.out.println("No se encontró el apellido.");
+        List<AddressEntry> contactsToRemove = new ArrayList<>();
+        for (AddressEntry entry : addressBook.getAllEntries()) {
+            if (entry.getApellido().toLowerCase().startsWith(apellidoInicio.toLowerCase())) {
+                contactsToRemove.add(entry);
+            }
         }
-        else {
-            System.out.println("El siguiente contacto fue encontrado: ");
-            for(AddressEntry entry : entriesToRemove) {
+
+        if (contactsToRemove.isEmpty()) {
+            System.out.println("No se encontraron contactos con ese inicio de apellido.");
+        } else {
+            System.out.println("Contactos encontrados:");
+            for (int i = 0; i < contactsToRemove.size(); i++) {
+                System.out.println((i + 1) + ". " + contactsToRemove.get(i));
+            }
+
+            System.out.println("Ingrese el numero del contacto que desea eliminar o '0' para cancelar: ");
+            int seleccion = scanner.nextInt();
+            scanner.nextLine();
+
+            String confirmacion = null;
+            if (seleccion >= 1 && seleccion <= contactsToRemove.size()) {
+                AddressEntry selectedContact = contactsToRemove.get(seleccion - 1);
+                System.out.println("Esta seguro de que desea eliminar el siguiente contacto?");
+                System.out.println(selectedContact);
+                System.out.println("(Y/N): ");
+                confirmacion = scanner.nextLine().trim().toUpperCase();
+                if (confirmacion.equals("Y")) {
+                    addressBook.removeAddress(selectedContact);
+                    System.out.println("Contacto eliminado correctamente.");
+                } else {
+                    System.out.println("Operacion de eliminacion cancelada.");
+                }
+            } else if (seleccion == 0 || confirmacion.equals("N")) {
+                System.out.println("Operacion de eliminacion cancelada.");
+            } else {
+                System.out.println("Seleccion no valida. Por favor, ingrese un numero de contacto valido.");
+            }
+        }
+        System.out.println("Regresando al menu principal.");
+    }
+
+    private void findEntry() {
+        System.out.println("Buscando un contacto por apellido:");
+        System.out.println("Ingrese el apellido o sus primeras letras: ");
+        String apellidoInicio = scanner.nextLine().trim();
+
+        List<AddressEntry> contactsFound = new ArrayList<>();
+        for (AddressEntry entry : addressBook.getAllEntries()) {
+            if (entry.getApellido().toLowerCase().startsWith(apellidoInicio.toLowerCase())) {
+                contactsFound.add(entry);
+            }
+        }
+
+        if (contactsFound.isEmpty()) {
+            System.out.println("No se encontraron contactos con ese apellido.");
+        } else {
+            System.out.println("Contactos encontrados:");
+            for (AddressEntry entry : contactsFound) {
                 System.out.println(entry);
             }
         }
-
-        System.out.println("Ingrese 'y' para eliminar o 'n' para regresar al menú");
-        String confirmacion = scanner.nextLine().trim().toLowerCase();
-        if(confirmacion.equals("y")) {
-            for(AddressEntry entry : entriesToRemove) {
-                addressBook.removeAddress(entry);
-            }
-            System.out.println("Se eliminaron correctamente todas las entradas.");
-        }
-        else {
-            System.out.println("Regresando al menú.");
-            displayMenu();
-        }
     }
-    private void findEntry() {
 
-    }
     private void showEntry() {
         for (AddressEntry entry : addressBook.getAllEntries()) {
             System.out.println(entry);
