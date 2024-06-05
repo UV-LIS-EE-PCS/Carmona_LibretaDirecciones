@@ -5,14 +5,16 @@ import java.util.Scanner;
 public class Menu {
     private AddressBook addressBook;
     private Scanner scanner;
+
     public Menu(AddressBook addressBook) {
         this.addressBook = addressBook;
         this.scanner = new Scanner(System.in);
     }
+
     public void displayMenu() {
         while (true) {
             System.out.println("====================================");
-            System.out.println("Elige una opción del menu");
+            System.out.println("Elige una opcion del menu");
             System.out.println("a) Cargar de archivo");
             System.out.println("b) Agregar");
             System.out.println("c) Eliminar");
@@ -24,7 +26,7 @@ public class Menu {
 
             switch(opcion) {
                 case "a":
-                    //Falta implementar lo de cargar archivo pronto lo hare 00:20 27 de mayo
+                    loadFromFile();
                     break;
                 case "b":
                     addEntry();
@@ -41,10 +43,11 @@ public class Menu {
                 case "f":
                     return;
                 default:
-                    System.out.println("Opcion no valida. ");
+                    System.out.println("Opcion no valida.");
             }
         }
     }
+
     private void addEntry() {
         System.out.println("Agregando un nuevo contacto: ");
         System.out.print("Nombre: ");
@@ -70,17 +73,13 @@ public class Menu {
 
         System.out.println("El contacto se ha agregado correctamente.");
     }
+
     private void removeEntry() {
         System.out.println("Eliminando un contacto:");
         System.out.print("Ingrese las primeras letras del apellido del contacto a eliminar: ");
         String apellidoInicio = scanner.nextLine().trim();
 
-        List<AddressEntry> contactsToRemove = new ArrayList<>();
-        for (AddressEntry entry : addressBook.getAllEntries()) {
-            if (entry.getApellido().toLowerCase().startsWith(apellidoInicio.toLowerCase())) {
-                contactsToRemove.add(entry);
-            }
-        }
+        List<AddressEntry> contactsToRemove = addressBook.findApellido(apellidoInicio);
 
         if (contactsToRemove.isEmpty()) {
             System.out.println("No se encontraron contactos con ese inicio de apellido.");
@@ -94,20 +93,19 @@ public class Menu {
             int seleccion = scanner.nextInt();
             scanner.nextLine();
 
-            String confirmacion = null;
             if (seleccion >= 1 && seleccion <= contactsToRemove.size()) {
                 AddressEntry selectedContact = contactsToRemove.get(seleccion - 1);
                 System.out.println("Esta seguro de que desea eliminar el siguiente contacto?");
                 System.out.println(selectedContact);
-                System.out.println("(Y/N): ");
-                confirmacion = scanner.nextLine().trim().toUpperCase();
+                System.out.print("(Y/N): ");
+                String confirmacion = scanner.nextLine().trim().toUpperCase();
                 if (confirmacion.equals("Y")) {
                     addressBook.removeAddress(selectedContact);
                     System.out.println("Contacto eliminado correctamente.");
                 } else {
                     System.out.println("Operacion de eliminacion cancelada.");
                 }
-            } else if (seleccion == 0 || confirmacion.equals("N")) {
+            } else if (seleccion == 0) {
                 System.out.println("Operacion de eliminacion cancelada.");
             } else {
                 System.out.println("Seleccion no valida. Por favor, ingrese un numero de contacto valido.");
@@ -118,15 +116,10 @@ public class Menu {
 
     private void findEntry() {
         System.out.println("Buscando un contacto por apellido:");
-        System.out.println("Ingrese el apellido o sus primeras letras: ");
+        System.out.print("Ingrese el apellido o sus primeras letras: ");
         String apellidoInicio = scanner.nextLine().trim();
 
-        List<AddressEntry> contactsFound = new ArrayList<>();
-        for (AddressEntry entry : addressBook.getAllEntries()) {
-            if (entry.getApellido().toLowerCase().startsWith(apellidoInicio.toLowerCase())) {
-                contactsFound.add(entry);
-            }
-        }
+        List<AddressEntry> contactsFound = addressBook.findApellido(apellidoInicio);
 
         if (contactsFound.isEmpty()) {
             System.out.println("No se encontraron contactos con ese apellido.");
@@ -142,5 +135,14 @@ public class Menu {
         for (AddressEntry entry : addressBook.getAllEntries()) {
             System.out.println(entry);
         }
+    }
+
+    private void loadFromFile() {
+        System.out.print("Ingrese el nombre del archivo: ");
+        String fileName = scanner.nextLine().trim();
+
+        addressBook.loadFromFile(fileName);
+
+        System.out.println("Carga de archivo completada.");
     }
 }
