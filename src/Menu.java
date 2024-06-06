@@ -1,16 +1,25 @@
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+/**
+ * Clase que representa el menú interactivo para la libreta de direcciones.
+ */
 public class Menu {
     private AddressBook addressBook;
     private Scanner scanner;
 
+    /**
+     * Constructor para la clase Menu.
+     * @param addressBook La libreta de direcciones.
+     */
     public Menu(AddressBook addressBook) {
         this.addressBook = addressBook;
         this.scanner = new Scanner(System.in);
     }
 
+    /**
+     * Muestra el menú principal y maneja la interacción con el usuario.
+     */
     public void displayMenu() {
         while (true) {
             System.out.println("====================================");
@@ -22,7 +31,7 @@ public class Menu {
             System.out.println("e) Mostrar");
             System.out.println("f) Salir");
             System.out.println("====================================");
-            String opcion = scanner.nextLine();
+            String opcion = scanner.nextLine().trim().toLowerCase();
 
             switch(opcion) {
                 case "a":
@@ -41,6 +50,8 @@ public class Menu {
                     showEntry();
                     break;
                 case "f":
+                    scanner.close();
+                    System.out.println("Saliendo del programa...");
                     return;
                 default:
                     System.out.println("Opcion no valida.");
@@ -48,32 +59,37 @@ public class Menu {
         }
     }
 
+    /**
+     * Añade una nueva entrada a la libreta de direcciones.
+     */
     private void addEntry() {
         System.out.println("Agregando un nuevo contacto: ");
         System.out.print("Nombre: ");
-        String nombre = scanner.nextLine();
+        String nombre = scanner.nextLine().trim();
         System.out.print("Apellido: ");
-        String apellido = scanner.nextLine();
+        String apellido = scanner.nextLine().trim();
         System.out.print("Calle: ");
-        String calle = scanner.nextLine();
+        String calle = scanner.nextLine().trim();
         System.out.print("Ciudad: ");
-        String ciudad = scanner.nextLine();
+        String ciudad = scanner.nextLine().trim();
         System.out.print("Estado: ");
-        String estado = scanner.nextLine();
+        String estado = scanner.nextLine().trim();
         System.out.print("CP: ");
-        String cp = scanner.nextLine();
+        String cp = scanner.nextLine().trim();
         System.out.print("Email: ");
-        String email = scanner.nextLine();
+        String email = scanner.nextLine().trim();
         System.out.print("Telefono: ");
-        String telefono = scanner.nextLine();
+        String telefono = scanner.nextLine().trim();
 
         AddressEntry newEntry = new AddressEntry(nombre, apellido, calle, ciudad, estado, cp, email, telefono);
-
         addressBook.addAddress(newEntry);
 
         System.out.println("El contacto se ha agregado correctamente.");
     }
 
+    /**
+     * Elimina una entrada de la libreta de direcciones.
+     */
     private void removeEntry() {
         System.out.println("Eliminando un contacto:");
         System.out.print("Ingrese las primeras letras del apellido del contacto a eliminar: ");
@@ -89,11 +105,11 @@ public class Menu {
                 System.out.println((i + 1) + ". " + contactsToRemove.get(i));
             }
 
-            System.out.println("Ingrese el numero del contacto que desea eliminar o '0' para cancelar: ");
-            int seleccion = scanner.nextInt();
-            scanner.nextLine();
+            int seleccion = getValidIntegerInput("Ingrese el numero del contacto que desea eliminar o '0' para cancelar: ", 0, contactsToRemove.size());
 
-            if (seleccion >= 1 && seleccion <= contactsToRemove.size()) {
+            if (seleccion == 0) {
+                System.out.println("Operacion de eliminacion cancelada.");
+            } else {
                 AddressEntry selectedContact = contactsToRemove.get(seleccion - 1);
                 System.out.println("Esta seguro de que desea eliminar el siguiente contacto?");
                 System.out.println(selectedContact);
@@ -105,15 +121,14 @@ public class Menu {
                 } else {
                     System.out.println("Operacion de eliminacion cancelada.");
                 }
-            } else if (seleccion == 0) {
-                System.out.println("Operacion de eliminacion cancelada.");
-            } else {
-                System.out.println("Seleccion no valida. Por favor, ingrese un numero de contacto valido.");
             }
         }
         System.out.println("Regresando al menu principal.");
     }
 
+    /**
+     * Busca y muestra entradas por apellido.
+     */
     private void findEntry() {
         System.out.println("Buscando un contacto por apellido:");
         System.out.print("Ingrese el apellido o sus primeras letras: ");
@@ -131,12 +146,18 @@ public class Menu {
         }
     }
 
+    /**
+     * Muestra todas las entradas en la libreta de direcciones.
+     */
     private void showEntry() {
         for (AddressEntry entry : addressBook.getAllEntries()) {
             System.out.println(entry);
         }
     }
 
+    /**
+     * Carga entradas desde un archivo.
+     */
     private void loadFromFile() {
         System.out.print("Ingrese el nombre del archivo: ");
         String fileName = scanner.nextLine().trim();
@@ -144,5 +165,31 @@ public class Menu {
         addressBook.loadFromFile(fileName);
 
         System.out.println("Carga de archivo completada.");
+    }
+
+    /**
+     * Obtiene una entrada de entero válida del usuario.
+     *
+     * @param prompt El mensaje para el usuario.
+     * @param min    El valor mínimo aceptable.
+     * @param max    El valor máximo aceptable.
+     * @return Un entero válido dentro del rango especificado.
+     */
+    private int getValidIntegerInput(String prompt, int min, int max) {
+        int input = -1;
+        while (true) {
+            System.out.print(prompt);
+            try {
+                input = Integer.parseInt(scanner.nextLine().trim());
+                if (input >= min && input <= max) {
+                    break;
+                } else {
+                    System.out.println("Entrada fuera de rango. Por favor, ingrese un número entre " + min + " y " + max + ".");
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("Entrada no válida. Por favor, ingrese un número.");
+            }
+        }
+        return input;
     }
 }
