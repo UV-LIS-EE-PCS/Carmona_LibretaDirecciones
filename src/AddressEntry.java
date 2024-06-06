@@ -44,12 +44,20 @@ public class AddressEntry {
         return nombre + " " + apellido + " " + calle + " " + ciudad + " " + estado + " " + codigoPostal + " " + email + " " + telefono;
     }
 
-    // Getters y setters para los atributos con validaciones.
-
+    /**
+     * Obtiene el nombre del contacto.
+     *
+     * @return El nombre del contacto.
+     */
     public String getNombre() {
         return nombre;
     }
 
+    /**
+     * Establece el nombre del contacto.
+     *
+     * @param nombre El nuevo nombre del contacto.
+     */
     public void setNombre(String nombre) {
         if (nombre != null && !nombre.isEmpty()) {
             this.nombre = nombre;
@@ -58,10 +66,20 @@ public class AddressEntry {
         }
     }
 
+    /**
+     * Obtiene el apellido del contacto.
+     *
+     * @return El apellido del contacto.
+     */
     public String getApellido() {
         return apellido;
     }
 
+    /**
+     * Establece el apellido del contacto.
+     *
+     * @param apellido El nuevo apellido del contacto.
+     */
     public void setApellido(String apellido) {
         if (apellido != null && !apellido.isEmpty()) {
             this.apellido = apellido;
@@ -70,10 +88,20 @@ public class AddressEntry {
         }
     }
 
+    /**
+     * Obtiene la calle del contacto.
+     *
+     * @return La calle del contacto.
+     */
     public String getCalle() {
         return calle;
     }
 
+    /**
+     * Establece la calle del contacto.
+     *
+     * @param calle La nueva calle del contacto.
+     */
     public void setCalle(String calle) {
         if (calle != null && !calle.isEmpty()) {
             this.calle = calle;
@@ -82,10 +110,20 @@ public class AddressEntry {
         }
     }
 
+    /**
+     * Obtiene la ciudad del contacto.
+     *
+     * @return La ciudad del contacto.
+     */
     public String getCiudad() {
         return ciudad;
     }
 
+    /**
+     * Establece la ciudad del contacto.
+     *
+     * @param ciudad La nueva ciudad del contacto.
+     */
     public void setCiudad(String ciudad) {
         if (ciudad != null && !ciudad.isEmpty()) {
             this.ciudad = ciudad;
@@ -94,10 +132,20 @@ public class AddressEntry {
         }
     }
 
+    /**
+     * Obtiene el estado del contacto.
+     *
+     * @return El estado del contacto.
+     */
     public String getEstado() {
         return estado;
     }
 
+    /**
+     * Establece el estado del contacto.
+     *
+     * @param estado El nuevo estado del contacto.
+     */
     public void setEstado(String estado) {
         if (estado != null && !estado.isEmpty()) {
             this.estado = estado;
@@ -106,10 +154,20 @@ public class AddressEntry {
         }
     }
 
+    /**
+     * Obtiene el código postal del contacto.
+     *
+     * @return El código postal del contacto.
+     */
     public String getCodigoPostal() {
         return codigoPostal;
     }
 
+    /**
+     * Establece el código postal del contacto.
+     *
+     * @param codigoPostal El nuevo código postal del contacto.
+     */
     public void setCodigoPostal(String codigoPostal) {
         if (codigoPostal != null && !codigoPostal.isEmpty()) {
             this.codigoPostal = codigoPostal;
@@ -118,22 +176,43 @@ public class AddressEntry {
         }
     }
 
+    /**
+     * Obtiene el correo electrónico del contacto.
+     *
+     * @return El correo electrónico del contacto.
+     */
     public String getEmail() {
         return email;
     }
 
+    /**
+     * Establece el correo electrónico del contacto.
+     *
+     * @param email El nuevo correo electrónico del contacto.
+     */
     public void setEmail(String email) {
         if (isValidEmail(email)) {
             this.email = email;
+            System.out.println("Correo electrónico enviado.");
         } else {
-            System.out.println("Correo electrónico inválido.");
+            System.out.println("Correo electrónico invalido");
         }
     }
 
+    /**
+     * Obtiene el número de teléfono del contacto.
+     *
+     * @return El número de teléfono del contacto.
+     */
     public String getTelefono() {
         return telefono;
     }
 
+    /**
+     * Establece el número de teléfono del contacto.
+     *
+     * @param telefono El nuevo número de teléfono del contacto.
+     */
     public void setTelefono(String telefono) {
         if (isValidPhoneNumber(telefono)) {
             this.telefono = telefono;
@@ -162,3 +241,5 @@ public class AddressEntry {
         return phoneNumber != null && !phoneNumber.isEmpty() && phoneNumber.matches("\\d+");
     }
 }
+
+
