@@ -1,3 +1,6 @@
+/**
+ * Clase que representa una entrada en la libreta de direcciones.
+ */
 public class AddressEntry {
     private String nombre;
     private String apellido;
@@ -8,6 +11,18 @@ public class AddressEntry {
     private String email;
     private String telefono;
 
+    /**
+     * Constructor para crear una nueva entrada de dirección.
+     *
+     * @param nombre       El nombre del contacto.
+     * @param apellido     El apellido del contacto.
+     * @param calle        La calle del contacto.
+     * @param ciudad       La ciudad del contacto.
+     * @param estado       El estado del contacto.
+     * @param codigoPostal El código postal del contacto.
+     * @param email        El correo electrónico del contacto.
+     * @param telefono     El número de teléfono del contacto.
+     */
     public AddressEntry(String nombre, String apellido, String calle, String ciudad, String estado, String codigoPostal, String email, String telefono) {
         this.nombre = nombre;
         this.apellido = apellido;
@@ -19,10 +34,17 @@ public class AddressEntry {
         this.telefono = telefono;
     }
 
+    /**
+     * Retorna una representación en cadena de la entrada de dirección.
+     *
+     * @return Una cadena que representa la entrada de dirección.
+     */
     @Override
     public String toString() {
         return nombre + " " + apellido + " " + calle + " " + ciudad + " " + estado + " " + codigoPostal + " " + email + " " + telefono;
     }
+
+    // Getters y setters para los atributos con validaciones.
 
     public String getNombre() {
         return nombre;
@@ -120,10 +142,22 @@ public class AddressEntry {
         }
     }
 
+    /**
+     * Valida si un correo electrónico es válido.
+     *
+     * @param email El correo electrónico a validar.
+     * @return true si el correo electrónico es válido, false en caso contrario.
+     */
     private boolean isValidEmail(String email) {
         return email != null && !email.isEmpty() && email.contains("@") && email.indexOf(".") > email.indexOf("@");
     }
 
+    /**
+     * Valida si un número de teléfono es válido.
+     *
+     * @param phoneNumber El número de teléfono a validar.
+     * @return true si el número de teléfono es válido, false en caso contrario.
+     */
     private boolean isValidPhoneNumber(String phoneNumber) {
         return phoneNumber != null && !phoneNumber.isEmpty() && phoneNumber.matches("\\d+");
     }
