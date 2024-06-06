@@ -7,48 +7,48 @@ import java.util.Comparator;
 import java.util.List;
 
 /**
- * Una libreta de direcciones que almacena y gestiona contactos.
+ * Clase que representa una libreta de direcciones.
  */
 public class AddressBook {
     private List<AddressEntry> entries;
 
     /**
-     * Crea una nueva libreta de direcciones vacía.
+     * Constructor para crear una nueva libreta de direcciones vacía.
      */
     public AddressBook() {
         entries = new ArrayList<>();
     }
 
     /**
-     * Agrega un nuevo contacto a la libreta de direcciones.
-     * @param entry El contacto a agregar.
+     * Agrega una nueva entrada a la libreta de direcciones.
+     * @param entry La entrada a agregar.
      */
     public void addAddress(AddressEntry entry) {
         if (!entryExists(entry)) {
             entries.add(entry);
             Collections.sort(entries, Comparator.comparing(AddressEntry::getApellido));
-            notify("Contacto agregado: " + entry);
+            System.out.println("Contacto agregado: " + entry);
         } else {
-            notify("El contacto ya existe: " + entry);
+            System.out.println("El contacto ya existe: " + entry);
         }
     }
 
     /**
-     * Elimina un contacto de la libreta de direcciones.
-     * @param entry El contacto a eliminar.
+     * Elimina una entrada de la libreta de direcciones.
+     * @param entry La entrada a eliminar.
      */
     public void removeAddress(AddressEntry entry) {
         if (entries.remove(entry)) {
-            notify("Contacto eliminado: " + entry);
+            System.out.println("Contacto eliminado: " + entry);
         } else {
-            notify("El contacto no existe: " + entry);
+            System.out.println("El contacto no existe: " + entry);
         }
     }
 
     /**
-     * Busca contactos por apellido.
-     * @param apellido El apellido o sus primeras letras.
-     * @return Una lista de contactos que coinciden con el apellido dado.
+     * Busca entradas en la libreta de direcciones por apellido.
+     * @param apellido El apellido a buscar.
+     * @return Una lista de entradas que coinciden con el apellido proporcionado.
      */
     public List<AddressEntry> findApellido(String apellido) {
         List<AddressEntry> result = new ArrayList<>();
@@ -61,16 +61,16 @@ public class AddressBook {
     }
 
     /**
-     * Obtiene todos los contactos de la libreta de direcciones.
-     * @return Una lista de todos los contactos.
+     * Obtiene todas las entradas de la libreta de direcciones.
+     * @return Una lista de todas las entradas en la libreta de direcciones.
      */
     public List<AddressEntry> getAllEntries() {
         return new ArrayList<>(entries);
     }
 
     /**
-     * Carga contactos desde un archivo de texto.
-     * @param fileName El nombre del archivo de texto.
+     * Carga las entradas de un archivo en la libreta de direcciones.
+     * @param fileName El nombre del archivo desde el cual cargar las entradas.
      */
     public void loadFromFile(String fileName) {
         try (BufferedReader br = new BufferedReader(new FileReader(fileName))) {
@@ -91,31 +91,23 @@ public class AddressBook {
                     if (!entryExists(newEntry)) {
                         addAddress(newEntry);
                     } else {
-                        notify("El contacto " + newEntry + " ya existe y no se agregará nuevamente.");
+                        System.out.println("El contacto " + newEntry + " ya existe y no se agregará nuevamente.");
                     }
                 } else {
-                    notify("Línea mal formada: " + line);
+                    System.out.println("Línea mal formada: " + line);
                 }
             }
         } catch (IOException e) {
-            notify("Error al leer el archivo: " + e.getMessage());
+            System.out.println("Error al leer el archivo: " + e.getMessage());
         }
     }
 
     /**
-     * Verifica si un contacto ya existe en la libreta de direcciones.
-     * @param newEntry El contacto a verificar.
-     * @return true si el contacto ya existe, false de lo contrario.
+     * Verifica si una entrada ya existe en la libreta de direcciones.
+     * @param newEntry La nueva entrada a verificar.
+     * @return true si la entrada ya existe, false en caso contrario.
      */
     private boolean entryExists(AddressEntry newEntry) {
         return entries.stream().anyMatch(entry -> entry.equals(newEntry));
-    }
-
-    /**
-     * Muestra un mensaje en la consola.
-     * @param message El mensaje a mostrar.
-     */
-    private void notify(String message) {
-        System.out.println(message);
     }
 }
