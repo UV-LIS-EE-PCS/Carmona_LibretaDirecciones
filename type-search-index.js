@@ -1,1 +1,0 @@
-typeSearchIndex = [{"p":"<Unnamed>","l":"AddressBook"},{"p":"<Unnamed>","l":"AddressBookApplication"},{"p":"<Unnamed>","l":"AddressBookTest"},{"p":"<Unnamed>","l":"AddressEntry"},{"p":"<Unnamed>","l":"AddressEntryTest"},{"l":"All Classes and Interfaces","u":"allclasses-index.html"},{"p":"<Unnamed>","l":"Menu"}];updateSearchResults();
